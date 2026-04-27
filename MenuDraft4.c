@@ -1,0 +1,348 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>   
+#include <stddef.h>
+#include "gps.h" //CHANGE 1(Aedan)
+#include "gpsexport.h" //CHANGE 9(Aedan)
+
+//struct that defines the 
+typedef struct{
+FILE *file_p;
+char path[256];
+		} LogFile; // struct name 
+
+// Hardware status struct, add more members if you want
+typedef struct{
+    double vBatt;
+    double iAmp;
+    double sagVbatt;
+    double imuTemp;
+    double accVib;
+		} HardwareStat; //struct name 
+//Trip report struct, add more members if needed
+typedef struct{
+    double axisRoll;
+    double axisPitch;
+    double baroAlt;
+    double attitude;
+    double healthStat;
+		} TripReport; //struct name
+// GPS struct also add data if needed
+typedef struct {
+    double latitude;
+    double longitude;
+    double gpsAlt;
+		} GpsData; // struct name
+//event log 
+typedef struct {
+    int    time;
+    char   type[32];
+    char   data[64];
+} Event;
+
+typedef struct {
+    Event *events;     // dynamically allocated array
+    size_t count;      // how many events recorded
+    size_t capacity;   // how much room allocated
+} EventLog;
+
+// name and offset position, lets code locate offset members
+typedef struct {
+    const char *header;
+    size_t      offset;
+		} ColumnMap; // struct name
+
+// assings each struct member a reference for when the parsing needs to look for something
+const ColumnMap hardwareColumns[] =
+                    {
+    {"vbat (V)",         offsetof(HardwareStat, vBatt)},
+    {"amperage",     offsetof(HardwareStat, iAmp)},
+    {"sagCompensatedVBat",   offsetof(HardwareStat, sagVbatt)},
+    {"IMUTemperature",      offsetof(HardwareStat, imuTemp)},
+    {"accVib", offsetof(HardwareStat, accVib)},
+                     };
+const ColumnMap tripColumns[] =
+                {
+    {"axisRate[0]", offsetof(TripReport, axisRoll)},
+    {"axisRate[1]", offsetof(TripReport, axisPitch)},
+    {"BaroAlt (cm)", offsetof(TripReport, baroAlt)},
+    {"attitude[0]", offsetof(TripReport, attitude)},
+    {"hwHealthStatus", offsetof(TripReport, healthStat)},
+                };
+
+const ColumnMap gpsColumns[] = {
+    {"GPS_coord[0]", offsetof(GpsData, latitude)},
+    {"GPS_coord[1]", offsetof(GpsData, longitude)},
+    {"GPS_altitude", offsetof(GpsData, gpsAlt)},
+                };
+
+
+// naming variables so we can insert that into our many functions
+#define HW_COL_COUNT (sizeof(hardwareColumns)/sizeof(hardwareColumns[0]))
+#define TR_COL_COUNT  (sizeof(tripColumns)/sizeof(tripColumns[0]))
+#define GPS_COL_COUNT (sizeof(gpsColumns)/sizeof(gpsColumns[0]))
+
+//prototypes
+void menuDisplay();
+void customMenuDisplay(HardwareStat *hw, TripReport *tr);
+void handleCustomMenu(HardwareStat *hw, TripReport *tr);
+void parseCsv(LogFile *log, const ColumnMap *maps[], void *targets[],size_t mapCounts[], size_t numStructs);
+void parseFlightLog(LogFile *log, HardwareStat *hw, TripReport *tr);
+void parseGpsLog(LogFile *log, GpsData *gps);
+int openLog(LogFile *log, const char *prompt);
+//void report(); //CHANGE 7(Aedan)
+void hardwareStat();
+void eventLog();
+
+int main()
+{
+LogFile      flightLog = {0};
+LogFile      gpsLog    = {0};
+HardwareStat hw  = {0};
+TripReport   tr  = {0};
+GpsData      gps = {0};
+EventLog     ev  = {0};   // need to desing still Aedans job I think
+GPSmainRecord *gpsData = NULL; //CHANGE 2(Aedan)
+GPSstats results; //CHANGE 3(Aedan)
+
+int choice = 0;
+int choiceDat = 0;
+
+		printf("\n======= Flight Analyzer Ready =======\n");
+             	if (!openLog(&flightLog, "--- Enter flight log path:\n")) return 1;
+		if (!openLog(&gpsLog,    "--- Enter GPS log path:\n"))    return 1;
+                printf("----------- Parsing Files.... -----------\n");
+		parseFlightLog(&flightLog, &hw, &tr);
+		gpsData = extract_gps(gpsLog.path); //CHANGE 4(Aedan)
+		printf("--Records parsed: %zu\n", gpsData->count); //TROUBLESHOOTING(Aedan)
+		if(gpsData == NULL) //CHANGE 5(Aedan)
+		{
+			printf("----------- Failed to parse GPS log. -----------\n");
+			return 1; 
+		} //END CHANGE 5
+                
+		do{
+                menuDisplay();
+
+                        if(scanf("%d", &choice) != 1) //CHANGE 10(Aedan)
+			{
+				printf("----------- Invalid choice -----------; ----------- please choose an option from the menu: \n");
+				while(getchar() != '\n'); //clear input buffer
+				choice = 0;			  //reassign choice
+			} //END CHANGE 10
+                switch(choice)
+                {
+                case 1:
+
+                        hardwareStat(&hw);
+                break;
+                case 2:
+                        eventLog(&ev);
+
+                break;
+
+                case 3: //CHANGE 6(Aedan)
+                        results = process_stats(gpsData);
+			trip_report(results);
+			export_kml(gpsData, results);
+		break; //END CHANGE 6
+
+                case 4:
+                   customMenuDisplay(&hw, &tr);               
+                break;
+
+                case 5:
+                return 0;
+                break;
+        }}
+               while (choice!=5);
+                fclose(flightLog.file_p);
+		fclose(gpsLog.file_p);
+
+
+
+
+return 0;}
+        void menuDisplay()
+                {
+                printf(" please choose one of the options:\n");
+                printf("1. HardwareStat\n");
+                printf("2. EventLog\n");
+                printf("3. Trip Log\n");
+                printf("4. Custom Data\n");
+                printf("5. Exit\n");
+
+                }
+
+       
+
+        void customMenuDisplay(HardwareStat *hw, TripReport *tr)
+        {
+            printf("\n==== Custom Data Menu ====\n");
+            handleCustomMenu(hw, tr);
+        }
+        
+        void handleCustomMenu(HardwareStat *hw, TripReport *tr)
+        {
+            int selected[20];
+            int count = 0;
+            int choice;
+
+            printf(" Enter choices (-1 to finish):\n");
+
+            while (1)
+            {
+                printf("\n");
+                printf("1. Axis Roll        2. Axis Pitch        3. Battery Voltage       4. Current\n");
+                printf("5. Voltage Sag      6. Baro Altitude     7. Accel Vibration       8. Attitude\n");
+                printf("9. Health Status    10. IMU Temperature\n");
+                printf("Choice: ");
+
+                scanf("%d", &choice);
+
+                if (choice == -1) break;
+
+                if (choice >= 1 && choice <= 10)
+                {
+                    selected[count++] = choice;
+                }
+                else
+                {
+                    printf("Invalid choice\n");
+                }
+            }
+
+            if (count == 0)
+            {
+                printf("No selections made.\n");
+                return;
+            }
+
+            printf("\n--- Selected Data ---\n");
+
+            for (int i = 0; i < count; i++)
+            {
+                switch (selected[i])
+                {
+                    case 1:  printf("\n-- Axis Roll = %.2f\n", tr->axisRoll); break;
+                    case 2:  printf("\n-- Axis Pitch = %.2f\n", tr->axisPitch); break;
+                    case 3:  printf("\n-- Battery Voltage = %.2f\n", hw->vBatt); break;
+                    case 4:  printf("\n-- Current = %.2f A\n", hw->iAmp); break;
+                    case 5:  printf("\n-- Voltage Sag = %.2f\n", hw->sagVbatt); break;
+                    case 6:  printf("\n-- Baro Altitude = %.2f\n", tr->baroAlt); break;
+                    case 7:  printf("\n-- Accel Vibration = %.2f\n", hw->accVib); break;
+                    case 8:  printf("\n-- Attitude = %.2f\n", tr->attitude); break;
+                    case 9:  printf("\n-- Health = %.2f\n", tr->healthStat); break;
+                    case 10: printf("\n-- IMU Temp = %.2f\n", hw->imuTemp); break;
+                }
+            }
+
+            printf("----------------------\n");
+        }
+
+        void hardwareStat()
+        {
+        printf("----------- Hardware Status -----------\n");
+        }
+        void eventLog()
+        {
+        printf("event log chosen");
+        }
+        void report()
+        {
+        printf("report");
+        }
+
+// parser function
+
+ void parseCsv(LogFile *log, const ColumnMap *maps[], void *targets[],size_t mapCounts[], size_t numStructs)
+{
+    char line[4096];
+
+// checks if file can be read, creates an array of names w ',' will help to tokenize later
+    if (!fgets(line, sizeof(line), log->file_p)) return;
+    line[strcspn(line, "\r\n")] = '\0';
+
+// creates a cache to refer each member of struct and each struct
+    int *colIndex[16];
+    for (size_t s = 0; s < numStructs; s++) {
+        colIndex[s] = malloc(mapCounts[s] * sizeof(int));
+        for (size_t i = 0; i < mapCounts[s]; i++) colIndex[s][i] = -1;
+    }
+
+//this scans the array of names and tokenizes at each ','
+    int idx = 0;
+    char *tok = strtok(line, ",");
+    while (tok) {
+//goes thru structs
+        for (size_t s = 0; s < numStructs; s++) {
+//goes thru struct members 
+            for (size_t i = 0; i < mapCounts[s]; i++) {
+//compares diffs of struct member and token, if none, remebers location of member index 
+                if (strcmp(tok, maps[s][i].header) == 0) {
+                    colIndex[s][i] = idx;
+                }
+            }
+        }
+//will do it for the next token, and so on
+        idx++;
+        tok = strtok(NULL, ",");
+    }
+
+    while (fgets(line, sizeof(line), log->file_p)) {
+
+//cleans up tokens 
+	line[strcspn(line, "\r\n")] = '\0';
+//creates token array to hold them
+	char *tokens[512];
+        int n = 0;
+        char *lineToken_p = strtok(line, ",");
+        while (lineToken_p && n < 512) { 
+		tokens[n++] = lineToken_p; 
+		lineToken_p = strtok(NULL, ","); 
+					}
+
+        for (size_t s = 0; s < numStructs; s++) {
+            for (size_t i = 0; i < mapCounts[s]; i++) {
+                int c = colIndex[s][i];
+                if (c >= 0 && c < n) {
+                    double val = atof(tokens[c]);
+                    *(double *)((char *)targets[s] + maps[s][i].offset) = val;
+                }
+            }
+        }
+    }
+
+    for (size_t s = 0; s < numStructs; s++) free(colIndex[s]);
+}
+
+//flight log parser, acts from OG parser
+void parseFlightLog(LogFile *log, HardwareStat *hw, TripReport *tr) {
+    const ColumnMap *maps[]    = { hardwareColumns, tripColumns };
+    void            *targets[] = { hw, tr };
+    size_t           counts[]  = { HW_COL_COUNT, TR_COL_COUNT };
+    parseCsv(log, maps, targets, counts, 2);
+}
+
+//GPS log parser, acts from OG parser
+void parseGpsLog(LogFile *log, GpsData *gps) {
+    const ColumnMap *maps[]    = { gpsColumns };
+    void            *targets[] = { gps };
+    size_t           counts[]  = { GPS_COL_COUNT };
+    parseCsv(log, maps, targets, counts, 1);
+}
+
+//open log funtion
+int openLog(LogFile *log, const char *prompt) {
+    printf("%s", prompt);
+    if (!fgets(log->path, sizeof(log->path), stdin)) return 0;
+    log->path[strcspn(log->path, "\r\n")] = '\0';
+    log->file_p = fopen(log->path, "r");
+    if (!log->file_p) {
+        printf("----------- could not open %s -----------\n", log->path);
+        return 0;
+    }
+    return 1;
+}
+
+

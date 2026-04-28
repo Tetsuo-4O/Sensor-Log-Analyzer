@@ -219,7 +219,7 @@ void trip_report(GPSstats stats)
 	printf("================================================\n");
 	printf("Log-file: %s\n", stats.source_file);
 	printf("\n--------------Flight Overview-----------------\n");
-	printf("Events recorded: %d warnings(%d critical)\n", stats.warnCount, stats.critCount);
+	printf("%d Events recorded; see EVENT LOG for more details!\n", stats.warnCount);
 	printf("Total flight duration: %dm %02ds\n", fMin, fSec);
 	printf("Total distance flown: %.2f m\n", stats.totalDist);
 	printf("Greatest distance from homepoint: %.2f m\n", stats.maxhDist);
@@ -232,37 +232,9 @@ void trip_report(GPSstats stats)
 	printf("Minimum acquired satellites: %d\n", stats.minSat);
 	printf("Average satellite count: %d\n", stats.avgSat);
 	printf("Average HDOP(satellite signal quality): %.2f\n\n", stats.avgHDOP);
-	
-	printf("---------Event Log---------\n");
-	if(stats.crashDet == 1)
-		printf("CRASH DETECTED: ABNORMAL TERMINAL RATE OF DESCENT!\n");
-	if(stats.susendPos == 1)
-		printf("WARNING: Last known position =/= home position!\n");
-	if(stats.anomCount == 0 && stats.crashDet == 0 && stats.susendPos == 0)
-		printf("No recorded events.\n");
-	if(stats.anomCount > 0)
-	{	
-		for(int i = 0; i < stats.anomCount; i++)
-		{
-			int fMin, fSec;
-			timeConversion(stats.anom[i].anomTime, &fMin, &fSec);
-			if(stats.anom[i].anomType == 1)
-				printf("[%d:%02d] Minimum satellite count WARNING\n", fMin, fSec);
-			else if(stats.anom[i].anomType == 2)
-				printf("[%d:%02d] Minimum satellite count reestablished\n", fMin, fSec);
-			if(stats.anom[i].anomType == 3)
-				printf("[%d:%02d] HDOP degraded WARNING\n", fMin, fSec);
-			else if(stats.anom[i].anomType == 4)
-				printf("[%d:%02d] HDOP warning resolved\n", fMin, fSec);
-			if(stats.anom[i].anomType == 5)
-				printf("[%d:%02d] HDOP degraded CRITICAL\n", fMin, fSec);
-			else if(stats.anom[i].anomType == 6)
-				printf("[%d:%02d] HDOP critical status resolved\n", fMin, fSec);
-			if(stats.anom[i].anomType == 7)
-				printf("[%d:%02d] Satellite fix lost CRITICAL\n", fMin, fSec);
-			else if(stats.anom[i].anomType == 8)
-				printf("[%d:%02d] Satellite fix regained\n", fMin, fSec);
-		}
-	}
-
 }
+	
+		
+	
+
+

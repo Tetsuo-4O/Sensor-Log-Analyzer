@@ -17,7 +17,12 @@ This program was designed to handle .csv files only.
 
 Files taken from UAS/Drones must be converted to .csv before being used in the program.
 
-Example files:
+To convert UAS data to .csv a public repository designed for this can be used, such as:
+
+https://github.com/cleanflight/blackbox-tools.git
+
+
+Example files generated:
 
 Main log - LOG123.01.csv
 

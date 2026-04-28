@@ -550,7 +550,7 @@ Flightstats flightResults;
 int choice = 0;
 int choiceDat = 0;
 
-                printf("please enter file address\n");
+                printf("Please enter file address\n");
              	if (!openLog(&flightLog, "Enter flight log path:\n")) return 1;
 		if (!openLog(&gpsLog,    "Enter GPS log path:\n"))    return 1;
 
@@ -624,8 +624,8 @@ int choiceDat = 0;
 return 0;}
         void menuDisplay()
                 {
-                printf(" Fight Log analyzer ready\n");
-                printf(" please choose one of the options:\n");
+                printf("-Flight Log analyzer ready\n");
+                printf("-Please choose one of the options:\n");
                 printf("1. HardwareStat\n");
                 printf("2. EventLog\n");
                 printf("3. Trip Report\n");

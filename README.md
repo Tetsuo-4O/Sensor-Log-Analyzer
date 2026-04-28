@@ -57,9 +57,9 @@ Lastly in order to run the program use:
 
 ## Usage
 
-In order to run the program correctly you will need two .csv files, the main log and the GPS log.
+In order to run the program correctly you will need two .csv files, the flight log and the GPS log.
 
-After running the program you will be prompted to enter the main flight log path.
+After running the program you will be prompted to enter the file path for the flight log.
 
 ```c
 ======= Flight Analyzer Ready =======
@@ -68,7 +68,7 @@ After running the program you will be prompted to enter the main flight log path
 
 In order to enter the flight log path you can drag and drop the file onto the terminal when prompted.
 
-  Example 1 after dragging LOG7.01.csv onto cygwin terminal:
+  Example 1 after dragging the file LOG7.01.csv onto cygwin terminal:
 
 ```c
 ======= Flight Analyzer Ready =======
@@ -128,7 +128,7 @@ Once the files are parsed you may then choose an option 1-5 from the menu:
 5. Exit
 ```
 
-When choosing option 1: Hardware Stat
+When choosing option "1": Hardware Stat
 
   - Displays Hardware Status containing Battery Voltage, Current Draw, Voltage Sag, IMU Temp and Acceleration Vibration of UAS.
 ```c
@@ -150,11 +150,11 @@ Accel Vibration  : 1518.00
 ```
 
 
-When choosing option 2: Event Log
+When choosing option "2": Event Log
 
 ...
 
-When choosing option 3: Trip Log
+When choosing option "3": Trip Log
 
   - Displays Flight Overview containing events, flight duration, distance, altitude, rate of climb/descent, speed, and aquired satellites.
   - Generates a kml file at directory file path containing geographic data. This file can be used on google earth to view flight path.
@@ -196,9 +196,9 @@ Flight path KML generated at: /cygdrive/c/Users/Student/Desktop/School/LOG7.01.g
 Drag and drop file into Google Earth for real-world flight demonstration.
 ```
 
-When choosing option 4: Custom Data
+When choosing option "4": Custom Data
 
-  - Custom Data Menu will prompt user with ten selections to pull individual data from.
+  - Custom Data menu will prompt user with ten selections to pull individual metrics from.
   - User may select the catagories using 1-10 and after making selections use -1 to finish.
   
 ```c
@@ -245,7 +245,7 @@ Choice: -1
 
 
 
-When choosing option 5: Exit
+When choosing option "5": Exit
 
   - Program will terminate.
 ```c

@@ -11,9 +11,9 @@ By using flight logs and GPS logs this program is able to display a flight overv
 
 ## File Format
 
-This program was designed to handle .csv files only.
+This program was designed to handle .csv files as inputs.
 
-.csv stands for Comma-Seperated Values, a plain text format to store spreadsheets.
+.csv stands for Comma-Seperated Values and is a plain text format to store spreadsheets.
 
 Files taken from UAS/Drones must be converted to .csv before being used in the program.
 
@@ -21,12 +21,18 @@ To convert UAS data to .csv a public repository designed for this can be used, s
 
 https://github.com/cleanflight/blackbox-tools.git
 
-
 Example files generated:
 
 Main log - LOG123.01.csv
 
-GPS log  - LOG123.01.gps.csv 
+GPS log  - LOG123.01.gps.csv
+
+
+This program was also designed to handle .kml files as an output.
+
+.kml stands for keyhole markup language and is an XML-based format that stores geographic/positional data.
+
+The program outputs a .kml file to the directory file path when prompted.
 
 ## Run Instructions
 

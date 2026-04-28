@@ -1,16 +1,16 @@
 # **Sensor Log Analyzer**
 
-This Sensor Log Analyzer allows the user to input their own flight logs and gps logs from ... so they can view various metrics of the flight.
+This Sensor Log Analyzer allows the user to designate flight instrument and gps logs from UAS (unmanned aerial systems/drones) for parsing and flight data reporting. 
 
   
 
 
 ## Description and Features
 
-By using flight logs and GPS logs this program is able to display an overview of the whole flight, an event log for the flight, as well as the status of the hardware during the flight. The program also features a custom option to view more specific data of the flight like axis roll, axis pitch, battery voltage, current amps, battery volt sag, baro altitude, accelerometer vibration, attitude, health, and IMU temp. This program would be used by ...
+By using flight logs and GPS logs this program is able to display an overview of the whole flight, an event log for the flight, as well as the status of the hardware during the flight. The program also features a custom menu option to view user-specified data like axis roll and pitch rates, battery voltage, current draw, battery voltage sag, barometer altitude, accelerometer vibration, attitude, hardware health, and IMU/instrument temperatures. This program would be useful to UAS pilots and mission planners for the purposes of data collection, efficiency/aircraft tuning, and comprehensive flight review. 
 ## File Format
 
-Files must be .csv and .gps.csv
+Files must be designated .csv and .gps.csv
 
 (show example of files that can be used)
 ## Run Instructions
@@ -41,7 +41,7 @@ Enter GPS log path:
 /home/user/file/example_log01.01.gps.csv
 ```
 
-## Contact
+## Point of Contact
 For questions about the code email one of the students below:
 
 - Aedan S. - aedansnyder@unm.edu

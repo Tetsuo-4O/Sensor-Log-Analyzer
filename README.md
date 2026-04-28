@@ -18,7 +18,9 @@ This program was designed to handle .csv files only.
 Files taken from UAS/Drones must be converted to .csv before being used in the program.
 
 Example files:
+
 Main log - LOG13.01.csv
+
 GPS log  - LOG13.01.gps.csv 
 
 ## Run Instructions

@@ -35,7 +35,7 @@ To deploy this project run:
 ```c
 git clone https://github.com/Tetsuo-4O/Sensor-Log-Analyzer.git
 ```
-This will clone the directory to your terminal. (This requires the git package installed for cygwin.)
+This will clone the directory to your terminal. (This requires the "git" package installed for cygwin.)
 
 Change to Sensor-Log-Analyzer directory:
 

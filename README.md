@@ -11,9 +11,13 @@ By using flight logs and GPS logs this program is able to display a flight overv
 
 ## File Format
 
-This program was designed to handle .csv files as inputs.
+This program was designed to handle .csv files as inputs and export .kml files as outputs.
 
 .csv stands for Comma-Seperated Values and is a plain text format to store spreadsheets.
+
+.kml stands for keyhole markup language and is an XML-based format that stores geographic/positional data.
+
+The program outputs a .kml file to the directory file path when prompted.
 
 Files taken from UAS/Drones must be converted to .csv before being used in the program.
 
@@ -26,13 +30,6 @@ Example files generated:
 Main log - LOG123.01.csv
 
 GPS log  - LOG123.01.gps.csv
-
-
-This program was also designed to handle .kml files as an output.
-
-.kml stands for keyhole markup language and is an XML-based format that stores geographic/positional data.
-
-The program outputs a .kml file to the directory file path when prompted.
 
 ## Run Instructions
 

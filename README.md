@@ -7,7 +7,7 @@ This Sensor Log Analyzer allows the user to designate flight instrument and gps 
 
 ## Description and Features
 
-By using flight logs and GPS logs this program is able to display an overview of the whole flight, an event log for the flight, as well as the status of the hardware during the flight. The program also features a custom menu option to view user-specified data like axis roll and pitch rates, battery voltage, current draw, battery voltage sag, barometer altitude, accelerometer vibration, attitude, hardware health, and IMU/instrument temperatures. This program would be useful to UAS pilots and mission planners for the purposes of data collection, efficiency/aircraft tuning, and comprehensive flight review. 
+By using flight logs and GPS logs this program is able to display a flight overview, an event log for the flight, and hardware/systems status during the flight. The program also features a custom report option, permitting the user to designate report content including metrics like axis roll/pitch rates, battery voltage, current draw, battery voltage sag, barometer altitude, accelerometer vibration, attitude, hardware health, and IMU/instrument temperatures. This program is useful to UAS pilots and mission planners for the purposes of data collection, efficiency/aircraft tuning, and comprehensive flight review. 
 ## File Format
 
 Files must be designated .csv and .gps.csv

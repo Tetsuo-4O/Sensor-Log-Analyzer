@@ -152,7 +152,10 @@ Accel Vibration  : 1518.00
 
 When choosing option 2: Event Log
 
+  - Displays Event Log.
+```c
 ...
+```
 
 When choosing option 3: Trip Log
 

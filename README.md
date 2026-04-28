@@ -7,7 +7,7 @@ This Sensor Log Analyzer allows the user to designate flight instrument and gps 
 
 ## Description and Features
 
-By using flight logs and GPS logs this program is able to display a flight overview, an event log for the flight, and hardware/systems status during the flight. The program also features a custom report option, permitting the user to designate report content including metrics like axis roll/pitch rates, battery voltage, current draw, battery voltage sag, barometer altitude, accelerometer vibration, attitude, hardware health, and IMU/instrument temperatures. Lastly, Using the data collected the program then creates a kml file that will show a map of the flight on google maps. This program is useful to UAS pilots and mission planners for the purposes of data collection, efficiency/aircraft tuning, and comprehensive flight review. 
+By using flight logs and GPS logs this program is able to display a flight overview, an event log for the flight, and hardware/systems status during the flight. The program also features a custom report option, permitting the user to designate report content including metrics like axis roll/pitch rates, battery voltage, current draw, battery voltage sag, barometer altitude, accelerometer vibration, attitude, hardware health, and IMU/instrument temperatures. Lastly, Using the data collected the program then creates a kml file that will show a map of the flight on google earth. This program is useful to UAS pilots and mission planners for the purposes of data collection, efficiency/aircraft tuning, and comprehensive flight review. 
 
 ## File Format
 
@@ -130,7 +130,25 @@ Once the files are parsed you may then choose an option 1-5 from the menu:
 
 When choosing option 1: Hardware Stat
 
-...
+  - Displays Hardware Status containing Battery Voltage, Current Draw, Voltage Sag, IMU Temp and Acceleration Vibration of UAS.
+```c
+Please choose one of the options:
+1. Hardware Stat
+2. Event Log
+3. Trip Log
+4. Custom Data
+5. Exit
+1
+
+--- Hardware Status ---
+Battery Voltage  : 19.76 V
+Current Draw     : 0.00 A
+Voltage Sag      : 20.66 V
+IMU Temperature  : 24.5 C
+Accel Vibration  : 1518.00
+-----------------------
+```
+
 
 When choosing option 2: Event Log
 
@@ -138,17 +156,110 @@ When choosing option 2: Event Log
 
 When choosing option 3: Trip Log
 
-...
+  - Displays Flight Overview containing events, flight duration, distance, altitude, rate of climb/descent, speed, and aquired satellites.
+  - Generates a kml file at directory file path containing geographic data. This file can be used on google earth to view flight path.
+
+```c
+Please choose one of the options:
+1. Hardware Stat
+2. Event Log
+3. Trip Log
+4. Custom Data
+5. Exit
+3
+================================================
+             IN-FLIGHT TRIP REPORT
+================================================
+Log-file: /cygdrive/c/Users/Student/Desktop/School/LOG7.01.gps.csv
+
+--------------Flight Overview-----------------
+Events recorded: 32 warnings(0 critical)
+Total flight duration: 16m 06s
+Total distance flown: 4674.17 m
+Greatest distance from homepoint: 52.12 m
+Maximum recorded altitude: 53 m
+Maximum rate of climb: 592 cm/s
+Maximum rate of descent: -871 cm/s
+Maximum rate of speed: 14.04 m/s
+Average flight speed: 4.89 m/s
+Maximum acquired satellites: 11
+Minimum acquired satellites: 7
+Average satellite count: 10
+Average HDOP(satellite signal quality): 149.03
+
+---------Event Log---------
+[0:22] HDOP degraded WARNING
+[0:22] HDOP warning resolved
+kmltitle = '/cygdrive/c/Users/Student/Desktop/School/LOG7.01.gps.kml'
+fp = 0xa00020718
+Flight path KML generated at: /cygdrive/c/Users/Student/Desktop/School/LOG7.01.gps.kml
+Drag and drop file into Google Earth for real-world flight demonstration.
+```
 
 When choosing option 4: Custom Data
 
-...
+  - Custom Data Menu will prompt user with ten selections to pull individual data from.
+  - User may select the catagories using 1-10 and after making selections use -1 to finish.
+  
+```c
+ please choose one of the options:
+1. HardwareStat
+2. EventLog
+3. Trip Log
+4. Custom Data
+5. Exit
+4
+
+==== Custom Data Menu ====
+ Enter choices (-1 to finish):
+
+1. Axis Roll        2. Axis Pitch        3. Battery Voltage       4. Current
+5. Voltage Sag      6. Baro Altitude     7. Accel Vibration       8. Attitude
+9. Health Status    10. IMU Temperature
+Choice: 1
+
+1. Axis Roll        2. Axis Pitch        3. Battery Voltage       4. Current
+5. Voltage Sag      6. Baro Altitude     7. Accel Vibration       8. Attitude
+9. Health Status    10. IMU Temperature
+Choice: 2
+
+1. Axis Roll        2. Axis Pitch        3. Battery Voltage       4. Current
+5. Voltage Sag      6. Baro Altitude     7. Accel Vibration       8. Attitude
+9. Health Status    10. IMU Temperature
+Choice: 3
+
+1. Axis Roll        2. Axis Pitch        3. Battery Voltage       4. Current
+5. Voltage Sag      6. Baro Altitude     7. Accel Vibration       8. Attitude
+9. Health Status    10. IMU Temperature
+Choice: -1
+
+--- Selected Data ---
+
+-- Axis Roll = 0.00
+
+-- Axis Pitch = 5.00
+
+-- Battery Voltage = 19.76
+----------------------
+```
+
+
 
 When choosing option 5: Exit
 
-Program will terminate.
+  - Program will terminate.
+```c
+    please choose one of the options:
+1. HardwareStat
+2. EventLog
+3. Trip Log
+4. Custom Data
+5. Exit
+5
 
-
+User@Student-PC ~/Sensor-Log-Analyzer
+~
+```
 ## Point of Contact
 For questions about the code email one of the students below:
 

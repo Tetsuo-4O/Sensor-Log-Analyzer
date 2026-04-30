@@ -7,7 +7,7 @@ This Sensor Log Analyzer allows the user to designate flight instrument and gps 
 
 ## Description and Features
 
-By using flight logs and GPS logs this program is able to display a flight overview, an event log for the flight, and hardware/systems status during the flight. The program also features a custom report option, permitting the user to designate report content including metrics like axis roll/pitch rates, battery voltage, current draw, battery voltage sag, barometer altitude, accelerometer vibration, attitude, hardware health, and IMU/instrument temperatures. Lastly, Using the data collected the program then creates a kml file that will show a map of the flight on google earth. This program is useful to UAS pilots and mission planners for the purposes of data collection, efficiency/aircraft tuning, and comprehensive flight review. 
+By using flight logs and GPS logs this program is able to display a flight overview, an event log for the flight, an Instrument Report and Hardware/systems status during the flight. The program also features a custom report option, permitting the user to designate specific report content including metrics like axis roll/pitch rates, battery voltage, current draw, battery voltage sag, barometer altitude, accelerometer vibration, attitude, hardware health, and IMU/instrument temperatures. Lastly, Using the data collected the program creates a kml file that will show a map of the flight on google earth. This program is useful to UAS pilots and mission planners for the purposes of data collection, efficiency/aircraft tuning, and comprehensive flight review. 
 
 ## File Format
 
@@ -15,7 +15,7 @@ This program was designed to handle .csv files as inputs and export .kml files a
 
 .csv stands for Comma-Seperated Values and is a plain text format to store spreadsheets.
 
-.kml stands for keyhole markup language and is an XML-based format that stores geographic/positional data.
+.kml stands for keyhole markup language and is an XML-based format that stores geographic and positional data.
 
 The program outputs a .kml file to the directory file path when prompted.
 
@@ -40,7 +40,7 @@ git clone https://github.com/Tetsuo-4O/Sensor-Log-Analyzer.git
 ```
 This will clone the directory to your terminal. (This requires the "git" package installed for cygwin.)
 
-Change to Sensor-Log-Analyzer directory:
+Change directory to Sensor-Log-Analyzer directory:
 
 ```c
 cd Sensor-Log-Analyzer
@@ -49,7 +49,7 @@ cd Sensor-Log-Analyzer
 To compile the program use the following:
 
 ```c
-gcc MenuDraft4.c gpsstats.c gpsexports.c gpsmainparse.c -o Sensorlog -lm
+gcc display.c flight.c main.c parser.c gpsstats.c gpsexports.c gpsmainparse.c -o Sensorlog -lm
 ```
 
 Lastly in order to run the program use:
@@ -89,11 +89,11 @@ Alternatively you can place the flight logs into the directory folder and access
 LOG7.01.csv
 ```
 
-After entering the path of the flight log, you will be prompted to enter the GPS log.
+After entering the file path of the flight log, you will be prompted to enter the GPS log.
 
 Enter the GPS log path using either method above.
 
-  Example 1:
+  Example 1 (Drag & Drop):
 
 ```c
 ======= Flight Analyzer Ready =======
@@ -103,7 +103,7 @@ Enter the GPS log path using either method above.
 /cygdrive/c/Users/Student/Desktop/School/LOG7.01.gpscsv
 ```
 
-  Example 2:
+  Example 2 (Log file is in directory):
 
 ```c
 ======= Flight Analyzer Ready =======
@@ -113,7 +113,7 @@ LOG7.01.csv
 LOG7.01.gps.csv
 ```
 
-Once the files are parsed you may then choose an option 1-5 from the menu:
+Once the files are parsed you may then choose an option 1-6 from the menu:
 
 ```c
 ======= Flight Analyzer Ready =======
@@ -128,24 +128,26 @@ Once the files are parsed you may then choose an option 1-5 from the menu:
 2. Event Log
 3. Trip Log
 4. Custom Data
-5. Exit
+5. Instrument Report
+6. Exit
 ```
 
 When choosing option 1: Hardware Stat
 
   - Displays Hardware Status containing Battery Voltage, Current Draw, Voltage Sag, IMU Temp and Acceleration Vibration of UAS.
 ```c
-Please choose one of the options:
+ Please choose one of the options:
 1. Hardware Stat
 2. Event Log
-3. Trip Log
+3. Trip Report
 4. Custom Data
-5. Exit
+5. Instrument Report
+6. Exit
 1
 
 --- Hardware Status ---
 Battery Voltage  : 19.76 V
-Current Draw     : 0.00 A
+Current Draw     : 1.98 A
 Voltage Sag      : 20.66 V
 IMU Temperature  : 24.5 C
 Accel Vibration  : 1518.00
@@ -155,23 +157,72 @@ Accel Vibration  : 1518.00
 
 When choosing option 2: Event Log
 
-  - Displays Event Log.
+  - Displays log of events and log of GPS events during the duration of flight along with timestamps.
+  - The event log will show warnings and critical warnings for voltage sag and battery.
+  - The GPS event log will show warnings and critical warnings for quality of HDOP connection.
 ```c
-...
-```
-
-When choosing option 3: Trip Log
-
-  - Displays Flight Overview containing events, flight duration, distance, altitude, rate of climb/descent, speed, and aquired satellites.
-  - Generates a kml file at directory file path containing geographic data. This file can be used on google earth to view flight path.
-
-```c
-Please choose one of the options:
+ Please choose one of the options:
 1. Hardware Stat
 2. Event Log
-3. Trip Log
+3. Trip Report
 4. Custom Data
-5. Exit
+5. Instrument Report
+6. Exit
+2
+================================================
+              Instrument Event Log:
+================================================
+Events recorded: 52 warnings (0 critical)
+
+---------Onboard Instrument Events-----------
+[0:07] Voltage sag WARNING
+[0:11] Voltage sag warning resolved
+[0:12] Voltage sag WARNING
+[0:15] Voltage sag warning resolved
+[0:16] Voltage sag WARNING
+[0:18] Voltage sag warning resolved
+[0:18] Voltage sag WARNING
+[0:18] Voltage sag warning resolved
+[0:19] Voltage sag WARNING
+[0:24] Voltage sag warning resolved
+[1:01] Voltage sag WARNING
+[1:02] Voltage sag warning resolved
+[12:02] Low battery voltage WARNING
+[12:03] Voltage sag WARNING
+[12:03] Voltage sag warning resolved
+[12:03] Low battery warning resolved
+[12:14] Low battery voltage WARNING
+[12:14] Low battery warning resolved
+================================================
+                 GPS Event Log:
+================================================
+Events recorded: 32 warnings (0 critical)
+
+----------------GPS Events--------------------
+[0:22] HDOP degraded WARNING
+[0:22] HDOP warning resolved
+[0:23] HDOP degraded WARNING
+[0:23] HDOP warning resolved
+[1:11] HDOP degraded WARNING
+[1:11] HDOP warning resolved
+[1:28] HDOP degraded WARNING
+[1:28] HDOP warning resolved
+[1:28] HDOP degraded WARNING
+```
+
+When choosing option 3: Trip Report
+
+  - Displays Flight Overview containing total events, flight duration, distance, altitude, rate of climb/descent, speed, and aquired satellites.
+  - Generates a kml file at directory file path containing geographic data. This file can be used with google earth to view flight path.
+
+```c
+ Please choose one of the options:
+1. Hardware Stat
+2. Event Log
+3. Trip Report
+4. Custom Data
+5. Instrument Report
+6. Exit
 3
 ================================================
              IN-FLIGHT TRIP REPORT
@@ -193,11 +244,6 @@ Minimum acquired satellites: 7
 Average satellite count: 10
 Average HDOP(satellite signal quality): 149.03
 
----------Event Log---------
-[0:22] HDOP degraded WARNING
-[0:22] HDOP warning resolved
-kmltitle = '/cygdrive/c/Users/Student/Desktop/School/LOG7.01.gps.kml'
-fp = 0xa00020718
 Flight path KML generated at: /cygdrive/c/Users/Student/Desktop/School/LOG7.01.gps.kml
 Drag and drop file into Google Earth for real-world flight demonstration.
 ```
@@ -205,15 +251,16 @@ Drag and drop file into Google Earth for real-world flight demonstration.
 When choosing option 4: Custom Data
 
   - Custom Data Menu will prompt user with ten selections to pull individual data from.
-  - User may select the catagories using 1-10 and after making selections use -1 to finish.
+  - User may select the catagories using 1-10 and after making as many selections as needed, use -1 to finish and display the chosen data.
   
 ```c
- please choose one of the options:
-1. HardwareStat
-2. EventLog
-3. Trip Log
+ Please choose one of the options:
+1. Hardware Stat
+2. Event Log
+3. Trip Report
 4. Custom Data
-5. Exit
+5. Instrument Report
+6. Exit
 4
 
 ==== Custom Data Menu ====
@@ -241,7 +288,7 @@ Choice: -1
 
 --- Selected Data ---
 
--- Axis Roll = 0.00
+-- Axis Roll = 2.00
 
 -- Axis Pitch = 5.00
 
@@ -249,19 +296,59 @@ Choice: -1
 ----------------------
 ```
 
+When choosing option 5: Instrument Report
+  - Displays report on Electrical Systems and Environmental flight data as well as the processor performance of the UAS/Drone.
+
+```c
+ Please choose one of the options:
+1. Hardware Stat
+2. Event Log
+3. Trip Report
+4. Custom Data
+5. Instrument Report
+6. Exit
+5
+================================================
+         Onboard instrumentation report
+================================================
+Log-file: /cygdrive/c/Users/Fuad/Desktop/School/LOG7.01.csv
+
+---------------Flight Overview----------------
+52 Events recorded; see 'EVENT LOG' for more details!
+Total flight duration: 16m 06s
+----------------Electrical Systems--------------
+Takeoff battery voltage: 24.70V
+Landing battery voltage: 19.76V
+Total battery depletion: 77.19 percent
+Minimum battery voltage: 19.11V
+Maximum voltage sag: 1.45V
+Highest measured current: 5.78A
+Average measured current: 2.14A
+--------------Processor performance-------------
+Maximum processor temp: 37.50C
+Average processor temp: 22.60C
+------------Environmental flight data-----------
+Maximum experienced G-FORCE: 11.82G
+Maximum roll rate: 52.60(degrees/s)
+Maximum pitch rate: 41.90(degrees/s)
+Maximum frame vibration: 6638.00 units/cm
+Average frame vibration: 1887.01 units/cm
+Maximum barometer read: 50.45m
+```
 
 
-When choosing option 5: Exit
+When choosing option 6: Exit
 
   - Program will terminate.
 ```c
-    please choose one of the options:
-1. HardwareStat
-2. EventLog
-3. Trip Log
+ Please choose one of the options:
+1. Hardware Stat
+2. Event Log
+3. Trip Report
 4. Custom Data
-5. Exit
-5
+5. Instrument Report
+6. Exit
+6
 
 User@Student-PC ~/Sensor-Log-Analyzer
 ~

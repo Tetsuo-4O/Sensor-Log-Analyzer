@@ -30,9 +30,9 @@ void handleCustomMenu(HardwareStat *hw, TripReport *tr)
 	while(1)
 	{
 		printf("\n");
-		printf("1. Axis Roll 2. Axis Pitch 3. Battery Voltage 4. Current\n");
-		printf("5. Voltage Sag 6. Baro Altitude 7. Accel Vibration 8. Attitude\n");
-		printf("9. Health Status 10. IMU Temperature\n");
+		printf("1. Axis Roll     2. Axis Pitch     3. Battery Voltage  4. Current\n");
+		printf("\n5. Voltage Sag   6. Baro Altitude  7. Accel Vibration  8. Attitude\n");
+		printf("\n9. Health Status 10. IMU Temperature\n");
 		printf("Choice: ");
 
 		scanf("%d", &choice);

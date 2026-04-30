@@ -35,15 +35,18 @@ void handleCustomMenu(HardwareStat *hw, TripReport *tr)
 		printf("\n9. Health Status 10. IMU Temperature\n");
 		printf("Choice: ");
 
-		scanf("%d", &choice);
-
+		if(scanf("%d", &choice) != 1)
+		{
+			printf("\nInvalid choice, Please use 1-10 to make choices.\n");
+			while(getchar() != '\n');
+			choice = 0;
+		}
+		
 		if(choice == -1)
 			break;
 		if(choice >= 1 && choice <= 10)
 			selected[count++] = choice;
-		else
-			printf("\nInvalid choice, Please use 1-10 to make choices.\n");
-
+	
 	}
 
 	if(count == 0)

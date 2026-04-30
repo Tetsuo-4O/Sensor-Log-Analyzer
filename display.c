@@ -3,8 +3,8 @@
 
 void menuDisplay()
 {
-	printf(" Fight Log analyzer ready\n");
-	printf(" please choose one of the options:\n");
+	printf("----Flight Log analyzer ready----\n");
+	printf("Please choose one of the options:\n");
 	printf("1. HardwareStat\n");
 	printf("2. EventLog\n");
 	printf("3. Trip Report\n");

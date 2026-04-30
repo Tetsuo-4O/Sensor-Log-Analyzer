@@ -13,9 +13,6 @@ int export_kml(GPSmainRecord *pointerLog, GPSstats stats)
 		strcpy(fileExt, ".kml"); //designate file kml
 	
 	FILE *fp = fopen(kmlTitle, "w"); //open file for writing, see "w" arg
-	printf("kmltitle = '%s'\n", kmlTitle);//TS
-	printf("fp = %p\n", (void*)fp);//TS
-	
 	if(fp == NULL)
 		return -1;
 

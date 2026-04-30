@@ -83,13 +83,13 @@ int main()
 				customMenuDisplay(&hw, &tr);
 			break;
 			case 5:
-				return 0;
-			break;
-			case 6:
 				inst_report(flightResults);
 			break;
+			case 6:
+				return 0;
+			break;
 		}
-	} while(choice != 5);
+	} while(choice != 6);
 
 	fclose(flightLog.file_p);
 	fclose(gpsLog.file_p);

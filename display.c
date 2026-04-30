@@ -9,8 +9,8 @@ void menuDisplay()
 	printf("2. EventLog\n");
 	printf("3. Trip Report\n");
 	printf("4. Custom Data\n");
-	printf("5. Exit\n");
-	printf("6. Instrument report\n");
+	printf("5. Instrument Report\n");
+	printf("6. Exit\n");
 }
 
 void customMenuDisplay(HardwareStat *hw, TripReport *tr)

@@ -41,9 +41,9 @@ void handleCustomMenu(HardwareStat *hw, TripReport *tr)
 			break;
 		if(choice >= 1 && choice <= 10)
 			selected[count++] = choice;
-		else if(choice != 1)
+		else
 			printf("\nInvalid choice, Please use 1-10 to make choices.\n");
-			break;
+
 	}
 
 	if(count == 0)

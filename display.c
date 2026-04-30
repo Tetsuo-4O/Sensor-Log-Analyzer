@@ -5,8 +5,8 @@ void menuDisplay()
 {
 	printf("\n~~~~Flight Log analyzer ready~~~~\n");
 	printf("Please choose one of the options:\n");
-	printf("1. HardwareStat\n");
-	printf("2. EventLog\n");
+	printf("1. Hardware Status\n");
+	printf("2. Event Log\n");
 	printf("3. Trip Report\n");
 	printf("4. Custom Data\n");
 	printf("5. Instrument Report\n");
@@ -41,7 +41,7 @@ void handleCustomMenu(HardwareStat *hw, TripReport *tr)
 			break;
 		if(choice >= 1 && choice <= 10)
 			selected[count++] = choice;
-		else
+		else if(choice != 1)
 			printf("\nInvalid choice\n");
 	}
 

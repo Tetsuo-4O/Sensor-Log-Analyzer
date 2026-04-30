@@ -39,7 +39,7 @@ void handleCustomMenu(HardwareStat *hw, TripReport *tr)
 		{
 			printf("\nInvalid choice, Please use 1-10 to make choices.\n");
 			while(getchar() != '\n');
-			choice = 0;
+			continue;
 		}
 		
 		if(choice == -1)

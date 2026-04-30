@@ -65,8 +65,15 @@ int main()
 		{
 			printf("----------- Invalid choice -----------; ----------- please choose an option from the menu: \n");
 			while(getchar() != '\n');
-			choice = 0;
+			continue;
 		}
+
+		if(choice < 1 || choice > 6)
+		{
+			printf("----------- Invalid choice -----------; ----------- please choose an option from the menu: \n");
+			continue;
+		}
+		
 		switch(choice)
 		{
 			case 1:

@@ -63,14 +63,14 @@ int main()
 
 		if(scanf("%d", &choice) != 1)
 		{
-			printf("----------- Invalid choice -----------; ----------- please choose an option from the menu: \n");
+			printf("\n----------- Invalid choice -----------; ----------- please choose an option from the menu: \n");
 			while(getchar() != '\n');
 			continue;
 		}
 
 		if(choice < 1 || choice > 6)
 		{
-			printf("----------- Invalid choice -----------; ----------- please choose an option from the menu: \n");
+			printf("\n----------- Invalid choice -----------; ----------- please choose an option from the menu: \n");
 			continue;
 		}
 		

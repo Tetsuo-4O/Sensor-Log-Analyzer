@@ -1,7 +1,7 @@
   Branch created to store contribution and document changes/revisions made to accomodate GPS module integration. 
 All changes noted in relevant code sections; feel free to change, update, or recommend changes/fixes. 
 
-  This repo contains EVERYTHING neccesarry to run and test our sensor log analyzer menu alongside trip report option 3. It compiles like this:
+  This repo contains EVERYTHING necessarry to run and test our sensor log analyzer menu alongside trip report option 3. It compiles like this:
 
 -> gcc MenuDraft2.c gpsmainparse.c gpsstats.c gpsexport.c -o sensorlog -lm 
 Run the program like this:
